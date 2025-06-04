@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Право на память - Цифровой дом для сохранения исторической памяти</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f8f8;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(22, 78, 99, 0.9) 0%, rgba(239, 71, 58, 0.7) 100%);
+        }
+        
+        .history-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .history-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .map-marker {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .timeline {
+            position: relative;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            background: rgba(239, 71, 58, 0.3);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: auto;
+            text-align: right;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-right: auto;
+            text-align: left;
+        }
+        
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                margin: 0 0 0 50px;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header/Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-landmark text-red-600 text-2xl"></i>
+                <h1 class="text-xl font-bold text-gray-800 font-serif">Право на память</h1>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#map" class="text-gray-700 hover:text-red-600 transition">Карта Памяти</a>
+                <a href="#ai" class="text-gray-700 hover:text-red-600 transition">Историк AI</a>
+                <a href="#dialogue" class="text-gray-700 hover:text-red-600 transition">Диалоги с Прошлым</a>
+                <a href="#media" class="text-gray-700 hover:text-red-600 transition">МедиаМастерская</a>
+                <a href="#quests" class="text-gray-700 hover:text-red-600 transition">Квесты Памяти</a>
+                <a href="#community" class="text-gray-700 hover:text-red-600 transition">Сообщество</a>
+            </nav>
+            <button class="md:hidden text-gray-700 focus:outline-none" id="menuBtn">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+        <!-- Mobile menu -->
+        <div class="md:hidden hidden bg-white shadow-lg" id="mobileMenu">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-4">
+                <a href="#map" class="text-gray-700 hover:text-red-600 transition py-2">Карта Памяти</a>
+                <a href="#ai" class="text-gray-700 hover:text-red-600 transition py-2">Историк AI</a>
+                <a href="#dialogue" class="text-gray-700 hover:text-red-600 transition py-2">Диалоги с Прошлым</a>
+                <a href="#media" class="text-gray-700 hover:text-red-600 transition py-2">МедиаМастерская</a>
+                <a href="#quests" class="text-gray-700 hover:text-red-600 transition py-2">Квесты Памяти</a>
+                <a href="#community" class="text-gray-700 hover:text-red-600 transition py-2">Сообщество Хранителей</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white py-20 md:py-32">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 font-serif">Цифровой дом для вашей исторической памяти</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Платформа, использующая ИИ для сохранения, систематизации и распространения памяти о Великой Отечественной войне и героических подвигах.</p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="#map" class="bg-white text-red-600 font-bold py-3 px-8 rounded-lg hover:bg-gray-100 transition duration-300">Исследовать Карту</a>
+                <a href="#community" class="border-2 border-white text-white font-bold py-3 px-8 rounded-lg hover:bg-white hover:text-red-600 transition duration-300">Присоединиться</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Overview -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 font-serif">Как работает платформа</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">Мы используем современные технологии для сохранения исторической памяти и передачи её будущим поколениям</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-lg shadow-md history-card">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-map-marked-alt text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Интерактивная Карта Памяти</h3>
+                    <p class="text-gray-600">Географическая визуализация ключевых исторических мест с привязкой к архивным материалам, фото и видео.</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-lg shadow-md history-card">
+                    <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-robot text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">ИИ-историк</h3>
+                    <p class="text-gray-600">Цифровой помощник, который анализирует документы, отвечает на вопросы и помогает находить исторические связи.</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-lg shadow-md history-card">
+                    <div class="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-video text-red-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">МедиаМастерская</h3>
+                    <p class="text-gray-600">Инструменты для создания цифровых экспонатов, реставрации фото и превращения личных историй в медиаконтент.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Memory Map Section -->
+    <section id="map" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 font-serif">Карта Памяти</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">Интерактивная карта ключевых мест, связанных с историческими событиями и исследованиями участников проекта</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-8">
+                <!-- Map placeholder -->
+                <div class="md:w-2/3 relative border-4 border-gray-200 rounded-lg overflow-hidden">
+                    <div class="h-96 bg-gray-200 flex items-center justify-center">
+                        <i class="fas fa-map text-6xl text-gray-400"></i>
+                    </div>
+                    <div class="absolute top-4 left-4 bg-white px-3 py-1 rounded-full shadow-md">
+                        <span class="text-sm font-medium">Включены слои: Лычково, Экспедиции 2023-2024</span>
+                    </div>
+                    
+                    <!-- Map markers -->
+                    <div class="absolute top-1/4 left-1/4 map-marker">
+                        <div class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center">
+                            <i class="fas fa-map-marker-alt mr-1"></i> Лычково
+                        </div>
+                        <div class="absolute left-0 mt-1 w-64 bg-white shadow-lg rounded-lg p-3 hidden" id="lychkovoInfo">
+                            <h4 class="font-bold mb-2">Сердце Проекта</h4>
+                            <p class="text-xs mb-2">Фильм "Хранители истории. Компас: Лычково", материалы об эшелоне 1941 г.</p>
+                            <div class="flex justify-between">
+                                <button class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded">ИИ-фильтр</button>
+                                <button class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">QR-коды</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute top-1/2 left-3/4 map-marker">
+                        <div class="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center">
+                            <i class="fas fa-map-marker-alt mr-1"></i> Санкт-Петербург
+                        </div>
+                    </div>
+                    
+                    <div class="absolute top-3/4 left-1/3 map-marker">
+                        <div class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center">
+                            <i class="fas fa-map-marker-alt mr-1"></i> Витебск
+                        </div>
+                    </div>
+                    
+                    <div class="absolute top-2/3 left-2/3 map-marker">
+                        <div class="bg-yellow-600 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center">
+                            <i class="fas fa-map-marker-alt mr-1"></i> Школа №1285
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Map legend -->
+                <div class="md:w-1/3">
+                    <div class="bg-gray-50 rounded-lg p-6 shadow-sm">
+                        <h3 class="font-bold text-lg mb-4">Ключевые точки на карте</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="bg-red-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-map-marker-alt text-red-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Лычково - Сердце Проекта</h4>
+                                    <p class="text-sm text-gray-600">Фильм "Хранители истории", материалы об эшелоне 1941 г.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-map-marker-alt text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Санкт-Петербург</h4>
+                                    <p class="text-sm text-gray-600">Трилогия "Право на память" с интервью Л.В. Пожедаевой</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-green-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-map-marker-alt text-green-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Витебск/Новополоцк/Минск</h4>
+                                    <p class="text-sm text-gray-600">Интервью с В.И. Пушкарёвым, фильм "Дулаг-184"</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-yellow-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-map-marker-alt text-yellow-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Школа №1285 (Москва)</h4>
+                                    <p class="text-sm text-gray-600">"Капсула Времени" (2024-2044), видео-анонс митинга</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 pt-6 border-t border-gray-200">
+                            <h4 class="font-medium mb-3">Слои карты</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm">Экспедиции Медиаотряда</span>
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm">Будущие Проекты</span>
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm">Трагедии детей войны</span>
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm">Маршрут Багратиона</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Historian Section -->
+    <section id="ai" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 font-serif">Историк AI</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">Ваш цифровой помощник в изучении истории, основывающийся на материалах проекта "Право на память"</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-8 items-center">
+                <div class="md:w-1/2">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="bg-gray-800 text-white px-4 py-3 flex items-center">
+                            <div class="flex space-x-2 mr-3">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            </div>
+                            <p>ИИ-историк | Право на память</p>
+                        </div>
+                        <div class="p-6 h-96 overflow-y-auto" id="aiChat">
+                            <div class="flex mb-4">
+                                <div class="bg-gray-100 p-3 rounded-lg rounded-tl-none max-w-xs md:max-w-md">
+                                    <p class="text-sm">Здравствуйте! Я ваш ИИ-помощник в изучении истории. Задайте мне любой вопрос о проекте "Право на память", участниках экспедиций или исторических событиях, связанных с нашим проектом.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex mb-4 justify-end">
+                                <div class="bg-red-100 p-3 rounded-lg rounded-tr-none max-w-xs md:max-w-md">
+                                    <p class="text-sm">Какая связь между блокадой Ленинграда и эвакуацией в Лычково?</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex mb-4">
+                                <div class="bg-gray-100 p-3 rounded-lg rounded-tl-none max-w-xs md:max-w-md">
+                                    <p class="text-sm">На основании интервью с Л.В. Пожедаевой и материалов фильма "Хранители истории. Компас: Лычково": В июле 1941 года из Ленинграда был отправлен эшелон с детьми, который попал под бомбардировку в Лычково. Это трагическое событие стало связующим звеном между блокадой Ленинграда и историей Лычково.</p>
+                                    <div class="mt-2 flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-video mr-1"></i>
+                                        <button class="underline">Смотреть документальный фильм</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-t border-gray-200 p-4">
+                            <div class="flex">
+                                <input type="text" placeholder="Задайте вопрос историку ИИ..." class="flex-grow px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                                <button class="bg-red-600 text-white px-4 py-2 rounded-r-lg hover:bg-red-700 transition"><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2">
+                    <h3 class="text-2xl font-bold mb-4">Специализация нашего ИИ</h3>
+                    <p class="text-gray-600 mb-6">Наш историк AI обладает глубокими знаниями в конкретных темах, связанных с вашим проектом:</p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex">
+                            <div class="bg-purple-100 p-2 rounded-full mr-3">
+                                <i class="fas fa-child text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">Трагедии детей войны</h4>
+                                <p class="text-sm text-gray-600">Специальные знания о судьбе детских эшелонов, эвакуации и жизни детей в военное время</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                <i class="fas fa-user-tie text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">Биографии участников</h4>
+                                <p class="text-sm text-gray-600">Детальные знания о Л.В. Пожедаевой и В.И. Пушкарёве на основе ваших интервью</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="bg-green-100 p-2 rounded-full mr-3">
+                                <i class="fas fa-route text-green-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">Исторические связи</h4>
+                                <p class="text-sm text-gray-600">Анализ связей между событиями (блокада Ленинграда, эвакуации, маршрут Багратиона)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="bg-red-100 p-2 rounded-full mr-3">
+                                <i class="fas fa-archive text-red-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">Архивные материалы</h4>
+                                <p class="text-sm text-gray-600">Доступ к оцифрованным дневникам, письмам и другим документам из ваших экспедиций</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-info-circle text-yellow-400"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-yellow-700">
+                                        <span class="font-medium">Важно:</span> Историк AI использует только проверенные источники и материалы, предоставленные вашей командой.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Media Workshop Section -->
+    <section id="media" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 font-serif">МедиаМастерская</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">Инструменты для создания цифрового контента на основе исторических материалов</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                <div class="bg-gray-50 rounded-lg p-6 shadow-sm history-card">
+                    <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-image text-blue-600"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">ИИ-реставрация фото</h4>
+                    <p class="text-sm text-gray-600 mb-4">Автоматическое восстановление и улучшение старых фотографий из семейных архивов</p>
+                    <button class="text-blue-600 text-sm font-medium flex items-center">
+                        Попробовать <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                    </button>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg p-6 shadow-sm history-card">
+                    <div class="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-microphone-alt text-purple-600"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">ИИ-озвучка</h4>
+                    <p class="text-sm text-gray-600 mb-4">Создание аудиоверсий писем и дневников для подкастов и аудиогидов</p>
+                    <button class="text-purple-600 text-sm font-medium flex items-center">
+                        Попробовать <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                    </button>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg p-6 shadow-sm history-card">
+                    <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-film text-green-600"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">ИИ-анимация</h4>
+                    <p class="text-sm text-gray-600 mb-4">Создание анимированных комиксов по дневникам и историческим документам</p>
+                    <button class="text-green-600 text-sm font-medium flex items-center">
+                        Попробовать <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                    </button>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg p-6 shadow-sm history-card">
+                    <div class="bg-red-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-museum text-red-600"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Цифровой экспонат</h4>
+                    <p class="text-sm text-gray-600 mb-4">Создание карточек для медиамузея с текстом, фото, аудио и видео</p>
+                    <button class="text-red-600 text-sm font-medium flex items-center">
+                        Попробовать <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg">
+                <div class="md:flex">
+                    <div class="md:w-1/2 p-8 md:p-12">
+                        <h3 class="text-2xl font-bold mb-4">Анимация дневников</h3>
+                        <p class="text-gray-600 mb-6">Теперь вы можете оживить страницы дневников Л.В. Пожедаевой с помощью технологий ИИ, создавая анимированные комиксы и короткие ролики.</p>
+                        
+                        <div class="space-y-4 mb-6">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3">
+                                    <i class="fas fa-1 text-xs"></i>
+                                </div>
+                                <span class="font-medium">Загрузите текст из дневника</span>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
+                                    <i class="fas fa-2 text-xs"></i>
+                                </div>
+                                <span class="font-medium">Выберите стиль анимации</span>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mr-3">
+                                    <i class="fas fa-3 text-xs"></i>
+                                </div>
+                                <span class="font-medium">Отредактируйте раскадровку</span>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center mr-3">
+                                    <i class="fas fa-4 text-xs"></i>
+                                </div>
+                                <span class="font-medium">Сгенерируйте и скачайте ролик</span>
+                            </div>
+                        </div>
+                        
+                        <button class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition flex items-center">
+                            <i class="fas fa-play mr-2"></i> Смотреть пример
+                        </button>
+                    </div>
+                    <div class="md:w-1/2 bg-gray-200 min-h-64 flex items-center justify-center">
+                        <i class="fas fa-photo-film text-5xl text-gray-400"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8">
+                <div class="bg-gray-100 rounded-lg p-6">
+                    <h4 class="font-bold mb-3">Как это сделано: инструкции и шаблоны</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <a href="#" class="text-center p-3 bg-white rounded-lg hover:shadow-md transition">
+                            <div class="mb-2 text-red-600">
+                                <i class="fas fa-scissors text-2xl"></i>
+                            </div>
+                            <span class="text-sm font-medium">Movavi</span>
+                        </a>
+                        <a href="#" class="text-center p-3 bg-white rounded-lg hover:shadow-md transition">
+                            <div class="mb-2 text-blue-600">
+                                <i class="fas fa-film text-2xl"></i>
+                            </div>
+                            <span class="text-sm font-medium">CapCut</span>
+                        </a>
+                        <a href="#" class="text-center p-3 bg-white rounded-lg hover:shadow-md transition">
+                            <div class="mb-2 text-purple-600">
+                                <i class="fas fa-camera-retro text-2xl"></i>
+                            </div>
+                            <span class="text-sm font-medium">Fotolab</span>
+                        </a>
+                        <a href="#" class="text-center p-3 bg-white rounded-lg hover:shadow-md transition">
+                            <div class="mb-2 text-green-600">
+                                <i class="fas fa-robot text-2xl"></i>
+                            </div>
+                            <span class="text-sm font-medium">PixVerse</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section id="community" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 font-serif">Сообщество Хранителей</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">Пространство для общения, сотрудничества и совместных проектов</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-8 mb-12">
+                <div class="md:w-1/2">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden h-full">
+                        <div class="bg-red-600 text-white p-4">
+                            <h3 class="font-bold text-lg">Медиаотряды</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-start mb-6">
+                                <div class="bg-gray-200 w-16 h-16 rounded-full flex items-center justify-center text-red-600 mr-4">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1">Ваш отряд - первый и главный!</h4>
+                                    <p class="text-sm text-gray-600">Размещение всех ваших работ (20+ роликов, экспедиционные дневники, телемосты)</p>
+                                </div>
+                            </div>
+                            
+                            <h4 class="font-bold mb-3">Профили доступных отрядов:</h4>
+                            <div class="grid grid-cols-3 gap-3">
+                                <div class="text-center">
+                                    <div class="bg-gray-200 w-12 h-12 rounded-full mx-auto mb-2 flex items-center justify-center">
+                                        <i class="fas fa-school text-gray-600"></i>
+                                    </div>
+                                    <span class="text-xs font-medium">Школа №1285</span>
+                                </div>
+                                <div class="text-center">
+                                    <div class="bg-gray-200 w-12 h-12 rounded-full mx-auto mb-2 flex items-center justify-center">
+                                        <i class="fas fa-map-marker-alt text-gray-600"></i>
+                                    </div>
+                                    <span class="text-xs font-medium">Лычково</span>
+                                </div>
+                                <div class="text-center">
+                                    <div class="bg-gray-200 w-12 h-12 rounded-full mx-auto mb-2 flex items-center justify-center">
+                                        <i class="fas fa-users text-gray-600"></i>
+                                    </div>
+                                    <span class="text-xs font-medium">Беларусь</span>
+                                </div>
+                            </div>
+                            
+                            <button class="mt-6 w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded-lg transition">
+                                Создать профиль отряда
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden h-full">
+                        <div class="bg-purple-600 text-white p-4">
+                            <h3 class="font-bold text-lg">Капсула Времени</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center text-purple-600 mr-4">
+                                    <i class="fas fa-capsules"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Цифровая Капсула (2024-2044)</h4>
+                                </div>
+                            </div>
+                            
+                            <p class="text-sm text-gray-600 mb-6">Раздел для публикации цифровых посланий потомкам от участников проекта с возможностью установки даты вскрытия.</p>
+                            
+                            <div class="mb-6 relative">
+                                <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                                    <div class="w-full border-t border-gray-300"></div>
+                                </div>
+                                <div class="relative flex justify-center">
+                                    <span class="px-2 bg-white text-sm text-gray-500">Примеры контента</span>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-video text-red-400 mr-2"></i>
+                                        <span class="text-sm">Видео-анонс митинга</span>
+                                    </div>
+                                    <button class="text-xs bg-gray-100 px-2 py-1 rounded">Смотреть</button>
+                                </div>
+                                
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-file-alt text-blue-400 mr-2"></i>
+                                        <span class="text-sm">Содержимое флешки</span>
+                                    </div>
+                                    <button class="text-xs bg-gray-100 px-2 py-1 rounded">Открыть</button>
+                                </div>
+                                
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-microphone text-purple-400 mr-2"></i>
+                                        <span class="text-sm">Напутствия потомкам</span>
+                                    </div>
+                                    <button class="text-xs bg-gray-100 px-2 py-1 rounded">Слушать</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-2/3 p-6 md:p-8">
+                        <h3 class="text-2xl font-bold mb-4">Проектная Площадка</h3>
+                        <p class="text-gray-600 mb-6">Инструменты для организации совместных проектов, вдохновлённые вашими идеями, такими как "Марафон памяти" с Казахстаном и Беларусью.</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h4 class="font-bold mb-2 flex items-center">
+                                    <i class="fas fa-search mr-2 text-blue-600"></i> Поиск партнёров
+                                </h4>
+                                <p class="text-xs text-gray-600">Найдите другие медиаотряды для совместной работы</p>
+                            </div>
+                            
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h4 class="font-bold mb-2 flex items-center">
+                                    <i class="fas fa-lightbulb mr-2 text-yellow-600"></i> Шаблоны проектов
+                                </h4>
+                                <p class="text-xs text-gray-600">Используйте готовые схемы для новых инициатив</p>
+                            </div>
+                            
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h4 class="font-bold mb-2 flex items-center">
+                                    <i class="fas fa-tasks mr-2 text-green-600"></i> Управление задачами
+                                </h4>
+                                <p class="text-xs text-gray-600">Распределяйте обязанности в команде</p>
+                            </div>
+                            
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h4 class="font-bold mb-2 flex items-center">
+                                    <i class="fas fa-handshake mr-2 text-red-600"></i> Совместная работа
+                                </h4>
+                                <p class="text-xs text-gray-600">Общие документы и медиаматериалы</p>
+                            </div>
+                        </div>
+                        
+                        <button class="border-2 border-red-600 text-red-600 font-bold py-2 px-6 rounded-lg hover:bg-red-600 hover:text-white transition flex items-center">
+                            <i class="fas fa-plus mr-2"></i> Создать проект
+                        </button>
+                    </div>
+                    <div class="md:w-1/3 bg-blue-50 flex items-center justify-center p-6">
+                        <div class="text-center">
+                            <div class="text-blue-600 text-4xl mb-4">
+                                <i class="fas fa-project-diagram"></i>
+                            </div>
+                            <h4 class="font-bold mb-2">Активные проекты</h4>
+                            <p class="text-sm text-gray-600 mb-4">Присоединяйтесь к уже существующим инициативам</p>
+                            <div class="space-y-2">
+                                <div class="bg-white p-2 rounded-lg shadow-sm">
+                                    <div class="text-xs font-medium">Марафон памяти</div>
+                                    <div class="text-xs text-gray-500">Казахстан, Беларусь</div>
+                                </div>
+                                <div class="bg-white p-2 rounded-lg shadow-sm">
+                                    <div class="text-xs font-medium">Цветы к обелиску</div>
+                                    <div class="text-xs text-gray-500">Онлайн-эстафета</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-green-600 text-white p-4">
+                        <h3 class="font-bold">Челленджи и Эстафеты</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-start mb-4">
+                            <div class="bg-green-100 text-green-600 p-2 rounded-full mr-3">
+                                <i class="fas fa-monument"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">"Цветы к обелиску онлайн"</h4>
+                                <p class="text-sm text-gray-600">Публикация историй местных памятников с привязкой к карте</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 text-blue-600 p-2 rounded-full mr-3">
+                                <i class="fas fa-scarf"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">"Возрождаем Солдатский платок"</h4>
+                                <p class="text-sm text-gray-600">Оцифровка историй солдат с созданием виртуальной стены памяти</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-yellow-600 text-white p-4">
+                        <h3 class="font-bold">Форум и чаты</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-start mb-4">
+                            <div class="bg-yellow-100 text-yellow-600 p-2 rounded-full mr-3">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">Обмен опытом</h4>
+                                <p class="text-sm text-gray-600">Лучшие практики сохранения исторической памяти</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 text-purple-600 p-2 rounded-full mr-3">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">Обсуждение методик</h4>
+                                <p class="text-sm text-gray-600">Как проводить интервью, работать с архивами, создавать контент</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 font-serif">Летопись проекта</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">Важные этапы работы и достижения проекта "Право на память"</p>
+            </div>
+            
+            <div class="timeline">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 timeline-item">
+                    <div class="timeline-content">
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-sm max-w-md">
+                            <div class="text-sm text-red-600 font-bold mb-2">2015</div>
+                            <h3 class="text-xl font-bold mb-2">Первые экспедиции</h3>
+                            <p class="text-gray-600">Начало работы по сбору материалов и интервью с ветеранами и свидетелями событий</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 timeline-item">
+                    <div></div>
+                    <div class="timeline-content">
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-sm max-w-md">
+                            <div class="text-sm text-red-600 font-bold mb-2">2017</div>
+                            <h3 class="text-xl font-bold mb-2">Фильм "Право на память"</h3>
+                            <p class="text-gray-600">Создание первой части трилогии с интервью Л.В. Пожедаевой о блокаде Ленинграда</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 timeline-item">
+                    <div class="timeline-content">
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-sm max-w-md">
+                            <div class="text-sm text-red-600 font-bold mb-2">2020</div>
+                            <h3 class="text-xl font-bold mb-2">"Хранители истории. Компас: Лычково"</h3>
+                            <p class="text-gray-600">Документальный фильм о трагедии детского эшелона 1941 года в Лычково</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 timeline-item">
+                    <div></div>
+                    <div class="timeline-content">
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-sm max-w-md">
+                            <div class="text-sm text-red-600 font-bold mb-2">2023</div>
+                            <h3 class="text-xl font-bold mb-2">"Дулаг-184" и экспедиции в Беларусь</h3>
+                            <p class="text-gray-600">Работа с В.И. Пушкарёвым, создание фильма о концлагере и маршруте Багратиона</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 timeline-item">
+                    <div class="timeline-content">
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-sm max-w-md">
+                            <div class="text-sm text-red-600 font-bold mb-2">2024</div>
+                            <h3 class="text-xl font-bold mb-2">"Капсула времени" и платформа "Право на память"</h3>
+                            <p class="text-gray-600">Запуск цифровой платформы с инструментами для сохранения исторической памяти</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-red-600 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6 font-serif">Станьте частью проекта "Право на память"</h2>
+            <p class="text-xl mb-8 max-w-3xl mx-auto">Присоединяйтесь к сообществу Хранителей истории и создавайте цифровую летопись вместе с нами</p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="#community" class="bg-white text-red-600 font-bold py-3 px-8 rounded-lg hover:bg-gray-100 transition duration-300">Присоединиться</a>
+                <a href="#" class="border-2 border-white text-white font-bold py-3 px-8 rounded-lg hover:bg-white hover:text-red-600 transition duration-300">Подробнее о проекте</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-lg font-bold mb-4 flex items-center">
+                        <i class="fas fa-landmark mr-2"></i> Право на память
+                    </h3>
+                    <p class="text-gray-400 text-sm">Цифровая платформа для сохранения исторической памяти с использованием технологий ИИ</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Разделы</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#map" class="text-gray-400 hover:text-white transition">Карта Памяти</a></li>
+                        <li><a href="#ai" class="text-gray-400 hover:text-white transition">Историк AI</a></li>
+                        <li><a href="#media" class="text-gray-400 hover:text-white transition">МедиаМастерская</a></li>
+                        <li><a href="#community" class="text-gray-400 hover:text-white transition">Сообщество</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Фильмы</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">"Право на память"</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">"Хранители истории"</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">"Дулаг-184"</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Все фильмы</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Контакты</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2 text-gray-400"></i>
+                            <span class="text-gray-400">info@pravonapamyat.ru</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone mr-2 text-gray-400"></i>
+                            <span class="text-gray-400">+7 (XXX) XXX-XX-XX</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-school mr-2 text-gray-400"></i>
+                            <span class="text-gray-400">Школа №1285, Москва</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2024 "Право на память". Все права защищены.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-vk"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-rutube"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menuBtn').addEventListener('click', function() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Map marker interaction
+        const marker = document.querySelector('.map-marker');
+        if (marker) {
+            marker.addEventListener('click', function() {
+                const info = document.getElementById('lychkovoInfo');
+                info.classList.toggle('hidden');
+            });
+        }
+    </script>
+</body>
+</html>
